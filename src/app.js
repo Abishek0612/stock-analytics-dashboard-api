@@ -15,18 +15,24 @@ const app = express();
 
 app.use(helmet());
 
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
+
 // CORS configuration
 app.use(
   cors({
-    origin: [
-      "https://stock-analytics-dashboard-frontend.vercel.app",
-      "http://localhost:3000",
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
